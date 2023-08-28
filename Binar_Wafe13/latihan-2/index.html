@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge Halim Fer-13-fd-12</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <div class="container mt-3 px-3">
+        <div class="row" style="gap: 5px; font-weight: bold; font-size: 9px; text-align: center;">
+            <div class="col card bg-primary" onclick="showCat()">
+                <div class="card-body">Show Me Cat!</div>
+            </div>
+            <div class="col card bg-primary" onclick="showDog()">
+                <div class="card-body">Show Me Dog!</div>
+            </div>
+            <div class="col card bg-primary" onclick="showChick()">
+                <div class="card-body">Show Me Chick!</div>
+            </div>
+            <div class="col card bg-primary" onclick="showCrow()">
+                <div class="card-body">Show Me Crow!</div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <br>
+
+    <div class="input-group mb-3  px-3">
+        <input type="text" id="input_text" class="form-control" placeholder="Input text..." name="input">
+        <span class="input-group-text bg-primary" onclick="searchFunction()">search</span>
+    </div>
+
+
+
+    <div id="info_cat">
+        <img src='./assets/undraw_cat.svg' id="img_cat" style="width: 300px;">
+        <p>'The cat is a domestic species of small carnivorous mammal. It is the only domesticated species in the family
+            Felidae and is commonly referred to as the domestic cat or house cat to distinguish it from the wild members
+            of
+            the family.'</p>
+    </div>
+
+    <div id="info_dog">
+        <img src='./assets/undraw_dog.svg' style="width: 300px;">
+        <p>'The dog is a domesticated descendant of the wolf. Also called the domestic dog, it is derived from extinct
+            Pleistocene wolves, and the modern wolf is the dog\'s nearest living relative. Dogs were the first species
+            to be domesticated by hunter-gatherers over 15,000 years ago before the development of agriculture.'</p>
+    </div>
+
+    <div id="info_chick">
+        <img src='./assets/undraw_chick.svg' style="width: 300px;">
+        <p>'Chick (young bird), a bird that has not yet reached adulthood.'</p>
+    </div>
+
+
+    <div id="show_spinner_text">
+        <div class="spinner-border text-primary mx-auto d-block"></div>
+        <div class="text-center">Loading..</div>
+    </div>
+    <div id="show_animals"></div>
+
+    <!--For media screen width of 360px-->
+
+
+    <script>
+        var animals = [
+            {
+                key: 'cat',
+                imageSource: './assets/undraw_cat.svg',
+                description: 'The cat is a domestic species of small carnivorous mammal. It is the only domesticated species in the family Felidae and is commonly referred to as the domestic cat or house cat to distinguish it from the wild members of the family.'
+            },
+            {
+                key: 'dog',
+                imageSource: './assets/undraw_dog.svg',
+                description: 'The dog is a domesticated descendant of the wolf. Also called the domestic dog, it is derived from extinct Pleistocene wolves, and the modern wolf is the dog\'s nearest living relative. Dogs were the first species to be domesticated by hunter-gatherers over 15,000 years ago before the development of agriculture.'
+            },
+            {
+                key: 'chick',
+                imageSource: './assets/undraw_chick.svg',
+                description: 'Chick (young bird), a bird that has not yet reached adulthood.'
+            }
+        ];
+
+        let sst = document.getElementById("show_spinner_text");
+        sst.classList.add('d-none');
+
+
+        let loadingContainer1 = document.getElementById("info_cat");
+        loadingContainer1.classList.add('d-none');
+
+        let loadingContainer2 = document.getElementById("info_dog");
+        loadingContainer2.classList.add('d-none');
+
+        let loadingContainer3 = document.getElementById("info_chick");
+        loadingContainer3.classList.add('d-none');
+
+
+
+        async function searchFunction() {
+            let get_search = document.getElementById("input_text").value;
+            let result_search = get_search.toLowerCase();
+            sst.classList.remove('d-none');
+            let myPromise = new Promise(function (resolve, reject) {
+                setTimeout(function () { resolve(); }, 2000);
+                if (result_search == "cat") {
+                    showCat();
+                    document.getElementById("show_animals").textContent = " ";
+                } else if (result_search == "dog") {
+                    showDog();
+                    document.getElementById("show_animals").textContent = " ";
+                } else if (result_search == "chick") {
+                    showChick();
+                    document.getElementById("show_animals").textContent = " ";
+                }
+                else {
+                    sst.classList.add('d-none');
+                    reject("Animal not found!, Please input correctly!");
+                    loadingContainer1.classList.add('d-none');
+                    loadingContainer2.classList.add('d-none');
+                    loadingContainer3.classList.add('d-none');
+                }
+
+            });
+            myPromise.then(
+                function (value) { document.getElementById("show_animals").innerHTML = value; },
+                function (error) { document.getElementById("show_animals").innerHTML = error; }
+            );
+
+        }
+
+
+
+
+
+
+        async function showCat() {
+            document.getElementById("show_animals").textContent = " ";
+            loadingContainer2.classList.add('d-none');
+            loadingContainer3.classList.add('d-none');
+            sst.classList.remove('d-none');
+            let myPromise = new Promise(function (resolve) {
+                setTimeout(function () { resolve(); }, 2000);
+            });
+            myPromise.then(
+                function () {
+                    sst.classList.add('d-none');
+                    loadingContainer1.classList.remove('d-none');
+                    loadingContainer2.classList.add('d-none');
+                    loadingContainer3.classList.add('d-none');
+                    document.getElementById("show_animals").textContent = " ";
+                },
+                function () { }
+            );
+
+        }
+
+
+
+        async function showDog() {
+            document.getElementById("show_animals").textContent = " ";
+            loadingContainer1.classList.add('d-none');
+            loadingContainer3.classList.add('d-none');
+            sst.classList.remove('d-none');
+            let myPromise = new Promise(function (resolve) {
+                setTimeout(function () { resolve(); }, 2000);
+            });
+            myPromise.then(
+                function () {
+                    sst.classList.add('d-none');
+                    loadingContainer2.classList.remove('d-none');
+                    loadingContainer1.classList.add('d-none');
+                    loadingContainer3.classList.add('d-none');
+                    document.getElementById("show_animals").textContent = " ";
+                },
+                function () { }
+            );
+
+        }
+
+
+
+        async function showChick() {
+            document.getElementById("show_animals").textContent = " ";
+            loadingContainer1.classList.add('d-none');
+            loadingContainer2.classList.add('d-none');
+            sst.classList.remove('d-none');
+            let myPromise = new Promise(function (resolve) {
+                setTimeout(function () { resolve(); }, 2000);
+            });
+            myPromise.then(
+                function () {
+                    sst.classList.add('d-none');
+                    loadingContainer3.classList.remove('d-none');
+                    loadingContainer1.classList.add('d-none');
+                    loadingContainer2.classList.add('d-none');
+                    document.getElementById("show_animals").textContent = " ";
+                },
+                function () { }
+            );
+
+        }
+
+
+        function showCrow() {
+            alert("Animal not found!, Please input correctly!");
+            loadingContainer1.classList.add('d-none');
+            loadingContainer2.classList.add('d-none');
+            loadingContainer3.classList.add('d-none');
+            document.getElementById("show_animals").textContent = " ";
+        }
+
+    </script>
+
+</body>
+
+</html>
